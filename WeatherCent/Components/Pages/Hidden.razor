@@ -1,0 +1,73 @@
+﻿@page "/hidden"
+
+<h3>hidden</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Country</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>29</td>
+            <td>USA</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane Smith</td>
+            <td>34</td>
+            <td>Canada</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Mike Brown</td>
+            <td>27</td>
+            <td>UK</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Emily Davis</td>
+            <td>22</td>
+            <td>Australia</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://via.placeholder.com/800x400?text=Image+1" class="d-block w-100" alt="Image 1">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/800x400?text=Image+2" class="d-block w-100" alt="Image 2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/800x400?text=Image+3" class="d-block w-100" alt="Image 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+@code {
+    // Backend code can be added here if needed
+}
