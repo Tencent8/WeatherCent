@@ -1,8 +1,9 @@
 ﻿@page "/weather"
+@inject IJSRuntime JSRuntime
 
-<h1>Weather</h1>
+<h1>Dynamic Weather</h1>
 
-<p>This component demonstrates showing data.</p>
+<p>See the weather and watch the background change!</p>
 
 @if (forecasts == null)
 {
@@ -10,46 +11,62 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div style="text-align:center;">
+        <h2>@currentForecast.Summary</h2>
+        <p>@currentForecast.Date.ToShortDateString()</p>
+        <p>Temperature: @currentForecast.TemperatureC °C / @currentForecast.TemperatureF °F</p>
+    </div>
 }
 
 @code {
     private WeatherForecast[]? forecasts;
+    private WeatherForecast? currentForecast;
 
     protected override async Task OnInitializedAsync()
     {
-        // Simulate asynchronous loading to demonstrate a loading indicator
         await Task.Delay(500);
 
         var startDate = DateOnly.FromDateTime(DateTime.Now);
         var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
         forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
+            {
+                Date = startDate.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = summaries[Random.Shared.Next(summaries.Length)]
+            }).ToArray();
+
+ 
+        currentForecast = forecasts.First();
+
+
+        UpdateBackground(currentForecast.TemperatureC);
     }
+
+    private async Task UpdateBackground(int temperatureC)
+    {
+        string backgroundStyle;
+
+        if (temperatureC > 25)
+        {
+            backgroundStyle = "url('https://example.com/sunny.jpg')";
+        }
+        else if (temperatureC > 15)
+        {
+            backgroundStyle = "url('https://example.com/cloudy.jpg')";
+
+        }
+        else if (temperatureC > 5)
+        {
+            backgroundStyle = "url('https://example.com/cool.jpg')";
+        }
+        else
+        {
+            backgroundStyle = "url('https://example.com/cold.jpg')";
+        }
+
+        await JSRuntime.InvokeVoidAsync("eval", $"document.body.style.backgroundImage = \"{backgroundStyle}\";");
+    }
+
 
     private class WeatherForecast
     {

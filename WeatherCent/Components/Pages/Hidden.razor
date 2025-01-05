@@ -1,73 +1,108 @@
 ﻿@page "/hidden"
 
-<h3>hidden</h3>
+<h3>Versteckte Komponente für die Bewertung</h3>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Country</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>John Doe</td>
-            <td>29</td>
-            <td>USA</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jane Smith</td>
-            <td>34</td>
-            <td>Canada</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Mike Brown</td>
-            <td>27</td>
-            <td>UK</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Emily Davis</td>
-            <td>22</td>
-            <td>Australia</td>
-        </tr>
-    </tbody>
-</table>
+@if (games == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var game in games)
+            {
+                <tr>
+                    <td>@game.Id</td>
+                    <td>@game.Name</td>
+                    <td>@game.Age</td>
+                    <td>@game.Country</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 <div class="carousel">
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            @for (int i = 0; i < images.Count; i++)
+            {
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i"
+                        class="@((i == currentSlide) ? "active" : "")"
+                        aria-current="@((i == currentSlide) ? "true" : null)"
+                        aria-label="Slide @(i + 1)"></button>
+            }
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://via.placeholder.com/800x400?text=Image+1" class="d-block w-100" alt="Image 1">
-            </div>
-            <div class="carousel-item">
-                <img src="https://via.placeholder.com/800x400?text=Image+2" class="d-block w-100" alt="Image 2">
-            </div>
-            <div class="carousel-item">
-                <img src="https://via.placeholder.com/800x400?text=Image+3" class="d-block w-100" alt="Image 3">
-            </div>
+            @for (int i = 0; i < images.Count; i++)
+            {
+                <div class="carousel-item @(i == currentSlide ? "active" : "")">
+                    <img src="@images[i]" class="d-block w-100" alt="Image @(i + 1)">
+                </div>
+            }
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
 </div>
 
 @code {
-    // Backend code can be added here if needed
+    private List<string> images = new()
+    {
+        "https://fastly.picsum.photos/id/656/536/354.jpg?hmac=ZDKHjwDtpOquJeHrqwgzCHvRwOrdYYcSEG2Xq8fEQho",
+        "https://fastly.picsum.photos/id/153/536/354.jpg?hmac=XGQNJp8rZErIDWHayJ2hORijVpQAfqxnuPy5w6xbf0k",
+        "https://fastly.picsum.photos/id/705/536/354.jpg?hmac=xC8kX1EPq9v2dAITb83FeXpOyySrCYFY6JOEZ9E5qY0"
+    };
+
+    private int currentSlide = 0;
+    private System.Timers.Timer timer;
+
+    protected override void OnInitialized()
+    {
+        timer = new System.Timers.Timer(3000);
+        timer.Elapsed += OnTimerElapsed;
+        timer.Start();
+    }
+
+    private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+    {
+        currentSlide = (currentSlide + 1) % images.Count;
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+    }
+
+    private List<Game>? games;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+
+        games = new List<Game>
+        {
+            new Game { Id = 1, Name = "Fort Nite", Age = 12, Country = "USA" },
+            new Game { Id = 2, Name = "Valo Rant", Age = 24, Country = "Canada" },
+            new Game { Id = 3, Name = "Elden Ring", Age = 27, Country = "UK" },
+            new Game { Id = 4, Name = "Rocket League", Age = 24, Country = "Australia" }
+        };
+    }
+
+    private class Game
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public int Age { get; set; }
+        public string Country { get; set; } = string.Empty;
+    }
 }
