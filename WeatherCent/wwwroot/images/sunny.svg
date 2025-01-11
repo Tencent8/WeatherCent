@@ -1,0 +1,32 @@
+<svg width="506" height="1016" viewBox="0 0 506 1016" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_58_1611)">
+<rect width="506" height="1016" fill="url(#paint0_linear_58_1611)"/>
+<rect y="251" width="506" height="765" fill="#FFD797"/>
+<ellipse cx="171.5" cy="256" rx="75.5" ry="9" fill="#FFD797"/>
+<ellipse cx="415.5" cy="255" rx="75.5" ry="9" fill="#FFD797"/>
+<ellipse cx="291.5" cy="245" rx="75.5" ry="9" fill="#F69E39"/>
+<path d="M30.1199 206.872L24.6634 295.341L-45.9502 266.852L30.1199 206.872Z" fill="#CD7840"/>
+<path d="M30.4014 206.341L118.597 253.134L24.7748 295.294L30.4014 206.341Z" fill="#FDC76E"/>
+<circle cx="173.164" cy="186.164" r="48.3702" transform="rotate(90.9482 173.164 186.164)" fill="white" fill-opacity="0.22"/>
+<circle cx="124.27" cy="150.27" r="36.6677" transform="rotate(90.9482 124.27 150.27)" fill="white" fill-opacity="0.22"/>
+<circle cx="22.5251" cy="25.525" r="56.5963" transform="rotate(90.9482 22.5251 25.525)" fill="white" fill-opacity="0.47"/>
+<circle cx="22.6038" cy="25.6039" r="74.3831" transform="rotate(90.9482 22.6038 25.6039)" fill="white" fill-opacity="0.47"/>
+<circle cx="22.6338" cy="28.6338" r="99.009" transform="rotate(90.9482 22.6338 28.6338)" fill="white" fill-opacity="0.47"/>
+<circle cx="23.0091" cy="26.0093" r="44.2824" transform="rotate(90.9482 23.0091 26.0093)" fill="white" fill-opacity="0.74"/>
+<path d="M77.3257 258.494L71.637 432.745L-43.1048 378.689L77.3257 258.494Z" fill="#CD7840"/>
+<path d="M77.7606 257.441L221.465 347.016L71.8149 432.65L77.7606 257.441Z" fill="#FDC76E"/>
+<ellipse cx="546.5" cy="246" rx="75.5" ry="9" fill="#F69E39"/>
+<path d="M157 61C157 61 168.5 63.5 169.5 66.5C170.5 69.5 181.5 61 181.5 61" stroke="black" stroke-width="3"/>
+<path d="M152 77C152 77 162.667 88.9475 162.667 85.3113C162.667 81.6751 172 77 172 77" stroke="black" stroke-width="3"/>
+</g>
+<rect x="0.5" y="0.5" width="505" height="1015" stroke="black"/>
+<defs>
+<linearGradient id="paint0_linear_58_1611" x1="251" y1="2.5" x2="251.489" y2="1016" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F69E39"/>
+<stop offset="1" stop-color="#F69E39"/>
+</linearGradient>
+<clipPath id="clip0_58_1611">
+<rect width="506" height="1016" fill="white"/>
+</clipPath>
+</defs>
+</svg>

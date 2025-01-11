@@ -1,0 +1,105 @@
+@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Login</h2>
+        </div>
+        <div class="card-body">
+            <EditForm Model="@loginModel" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="alert alert-danger" />
+
+                <!-- Username -->
+                <div class="form-group mb-3">
+                    <label for="username" class="form-label">Username:</label>
+                    <InputText id="username" class="form-control" @bind-Value="loginModel.Username" />
+                    <ValidationMessage For="@(() => loginModel.Username)" class="text-danger" />
+                </div>
+
+                <!-- Password -->
+                <div class="form-group mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <InputText id="password" type="password" class="form-control" @bind-Value="loginModel.Password" />
+                    <ValidationMessage For="@(() => loginModel.Password)" class="text-danger" />
+                </div>
+
+                <!-- Date of Birth -->
+                <div class="form-group mb-3">
+                    <label for="dob" class="form-label">Date of Birth:</label>
+                    <InputDate id="dob" class="form-control" @bind-Value="loginModel.DateOfBirth" />
+                </div>
+
+                <!-- Notifications -->
+                <div class="form-group form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="notifications" @bind="loginModel.EnableNotifications" />
+                    <label class="form-check-label" for="notifications">Enable Notifications</label>
+                </div>
+
+                <!-- User Type -->
+                <div class="form-group mb-3">
+                    <label class="form-label">User Type:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="admin" name="userType" @onchange="() => loginModel.IsAdmin = true" />
+                        <label class="form-check-label" for="admin">Admin</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="regular" name="userType" @onchange="() => loginModel.IsAdmin = false" />
+                        <label class="form-check-label" for="regular">Regular User</label>
+                    </div>
+                </div>
+
+                <!-- Age -->
+                <div class="form-group mb-3">
+                    <label for="age" class="form-label">Age:</label>
+                    <InputNumber id="age" class="form-control" @bind-Value="loginModel.Age" />
+                </div>
+
+                <!-- Country -->
+                <div class="form-group mb-3">
+                    <label for="country" class="form-label">Select Country:</label>
+                    <InputSelect id="country" class="form-control" @bind-Value="loginModel.Country">
+                        <option value="">Please select...</option>
+                        <option value="USA">United States</option>
+                        <option value="Germany">Germany</option>
+                        <option value="France">France</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="Canada">Canada</option>
+                    </InputSelect>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+
+    private void HandleValidSubmit()
+    {
+        // Logic for login submission
+        Console.WriteLine($"Username: {loginModel.Username}, IsAdmin: {loginModel.IsAdmin}, Country: {loginModel.Country}");
+    }
+
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "Username is required.")]
+        public string Username { get; set; }
+
+        [Required(ErrorMessage = "Password is required.")]
+        public string Password { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+        public bool EnableNotifications { get; set; }
+        public bool IsAdmin { get; set; } // True if the user selects "Admin"
+        public int Age { get; set; }
+        public string Country { get; set; } // Selected Country from the drop-down
+    }
+}

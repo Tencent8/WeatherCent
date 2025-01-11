@@ -24,49 +24,55 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        // Starte mit aktuellen Wetterdaten
         await Task.Delay(500);
 
         var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = startDate.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = summaries[Random.Shared.Next(summaries.Length)]
-            }).ToArray();
+        forecasts = new[]
+        {
+            new WeatherForecast { Date = startDate, TemperatureC = 30, Summary = "Sonnig" },
+            new WeatherForecast { Date = startDate.AddDays(1), TemperatureC = 20, Summary = "Wolkig" },
+            new WeatherForecast { Date = startDate.AddDays(2), TemperatureC = 15, Summary = "Regen" },
+            new WeatherForecast { Date = startDate.AddDays(3), TemperatureC = 5, Summary = "Schnee" },
+            new WeatherForecast { Date = startDate.AddDays(4), TemperatureC = 10, Summary = "Gewitter" }
+        };
 
- 
         currentForecast = forecasts.First();
 
-
-        UpdateBackground(currentForecast.TemperatureC);
+        // Aktualisiere Hintergrund basierend auf Wetterdaten
+        await UpdateBackground(currentForecast);
     }
 
-    private async Task UpdateBackground(int temperatureC)
+    private async Task UpdateBackground(WeatherForecast forecast)
     {
         string backgroundStyle;
 
-        if (temperatureC > 25)
+        // Setze Hintergrundbild basierend auf der Wetterlage
+        switch (forecast.Summary)
         {
-            backgroundStyle = "url('https://example.com/sunny.jpg')";
+            case "Sonnig":
+                backgroundStyle = "url('images/sunny.svg')";
+                break;
+            case "Wolkig":
+                backgroundStyle = "url('images/cloudy.svg')";
+                break;
+            case "Regen":
+                backgroundStyle = "url('images/rainy.svg')";
+                break;
+            case "Schnee":
+                backgroundStyle = "url('images/snowy.svg')";
+                break;
+            case "Gewitter":
+                backgroundStyle = "url('images/stormy.svg')";
+                break;
+            default:
+                backgroundStyle = "url('images/default.svg')";
+                break;
         }
-        else if (temperatureC > 15)
-        {
-            backgroundStyle = "url('https://example.com/cloudy.jpg')";
 
-        }
-        else if (temperatureC > 5)
-        {
-            backgroundStyle = "url('https://example.com/cool.jpg')";
-        }
-        else
-        {
-            backgroundStyle = "url('https://example.com/cold.jpg')";
-        }
-
+        // Wende den Hintergrund an
         await JSRuntime.InvokeVoidAsync("eval", $"document.body.style.backgroundImage = \"{backgroundStyle}\";");
     }
-
 
     private class WeatherForecast
     {
