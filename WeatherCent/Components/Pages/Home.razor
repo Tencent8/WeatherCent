@@ -1,5 +1,98 @@
 ﻿@page "/"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
-<h1>Hello, world!</h1>
+<div class="weather-page">
+    <!-- Header Section -->
+    <div class="weather-header">
+        <div class="weather-condition">@currentForecast?.Summary</div>
+        <div class="weather-location">@location</div>
+        <div class="weather-temperature">@currentForecast?.TemperatureC°</div>
+    </div>
 
-Welcome to your new app.
+    <!-- Forecast List -->
+    <div class="weather-forecast-list">
+        @foreach (var forecast in forecasts)
+        {
+                    <div class="forecast-item">
+                        <span class="forecast-day">@forecast.Date.ToString("dddd")</span>
+                        <span class="forecast-details">@forecast.TemperatureC°C @forecast.Summary</span>
+                    </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string? location;
+    private WeatherForecast[]? forecasts;
+    private WeatherForecast? currentForecast;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Parse the location from the query string
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        if (Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("location", out var locationQuery))
+        {
+            location = locationQuery.ToString();
+        }
+        else
+        {
+            location = "Steffisburg, Schwendibach"; // Default location
+        }
+
+        // Simulated weather data
+        var startDate = DateOnly.FromDateTime(DateTime.Now);
+        forecasts = new[]
+        {
+            new WeatherForecast { Date = startDate, TemperatureC = 25, Summary = "Sonnig" },
+            new WeatherForecast { Date = startDate.AddDays(1), TemperatureC = 24, Summary = "Wolkig" },
+            new WeatherForecast { Date = startDate.AddDays(2), TemperatureC = 22, Summary = "Regen" },
+            new WeatherForecast { Date = startDate.AddDays(3), TemperatureC = 18, Summary = "Schnee" },
+            new WeatherForecast { Date = startDate.AddDays(4), TemperatureC = 21, Summary = "Gewitter" }
+        };
+
+        // Select a random forecast
+        var random = new Random();
+        currentForecast = forecasts[random.Next(forecasts.Length)];
+
+        // Update the background based on the random weather
+        await UpdateBackground(currentForecast);
+    }
+
+    private async Task UpdateBackground(WeatherForecast forecast)
+    {
+        string backgroundStyle;
+
+        switch (forecast.Summary)
+        {
+            case "Sonnig":
+                backgroundStyle = "url('images/sunny.svg')";
+                break;
+            case "Wolkig":
+                backgroundStyle = "url('images/wolkig.svg')";
+                break;
+            case "Regen":
+                backgroundStyle = "url('images/regen.svg')";
+                break;
+            case "Schnee":
+                backgroundStyle = "url('images/schnee.svg')";
+                break;
+            case "Gewitter":
+                backgroundStyle = "url('images/gewitter.svg')";
+                break;
+            default:
+                backgroundStyle = "url('images/default.svg')";
+                break;
+        }
+
+        // Apply the background image
+        await JSRuntime.InvokeVoidAsync("eval", $"document.body.style.backgroundImage = \"{backgroundStyle}\"; document.body.style.backgroundSize = 'cover';");
+    }
+
+    private class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+    }
+}

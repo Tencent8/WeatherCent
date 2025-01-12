@@ -1,6 +1,7 @@
 @page "/login"
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager NavigationManager
 
 <div class="container mt-5">
     <div class="card shadow-lg">
@@ -75,17 +76,33 @@
                     <button type="submit" class="btn btn-primary">Login</button>
                 </div>
             </EditForm>
+
+            <!-- Success Message -->
+            @if (showSuccessMessage)
+            {
+                    <div class="alert alert-success mt-3">
+                        <strong>Success!</strong> You have successfully logged in.
+                    </div>
+            }
         </div>
     </div>
 </div>
 
 @code {
     private LoginModel loginModel = new LoginModel();
+    private bool showSuccessMessage = false;
 
     private void HandleValidSubmit()
     {
-        // Logic for login submission
-        Console.WriteLine($"Username: {loginModel.Username}, IsAdmin: {loginModel.IsAdmin}, Country: {loginModel.Country}");
+        // Show success message
+        showSuccessMessage = true;
+
+        // Wait for a few seconds, then navigate to summary page with form data
+        Task.Delay(2000).ContinueWith(_ =>
+        {
+            var queryString = $"username={Uri.EscapeDataString(loginModel.Username)}&password={Uri.EscapeDataString(loginModel.Password)}&dob={Uri.EscapeDataString(loginModel.DateOfBirth.ToString())}&notifications={loginModel.EnableNotifications}&isAdmin={loginModel.IsAdmin}&age={loginModel.Age}&country={Uri.EscapeDataString(loginModel.Country)}";
+            NavigationManager.NavigateTo($"/summary?{queryString}");
+        });
     }
 
     public class LoginModel
@@ -98,8 +115,8 @@
 
         public DateTime DateOfBirth { get; set; }
         public bool EnableNotifications { get; set; }
-        public bool IsAdmin { get; set; } // True if the user selects "Admin"
+        public bool IsAdmin { get; set; }
         public int Age { get; set; }
-        public string Country { get; set; } // Selected Country from the drop-down
+        public string Country { get; set; }
     }
 }

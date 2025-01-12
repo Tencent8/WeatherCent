@@ -1,0 +1,72 @@
+@page "/locations"
+@inject NavigationManager NavigationManager
+
+<div class="locations-page">
+    <!-- Header -->
+    <div class="locations-header">
+        <div class="app-title">WeatherCent</div>
+        <div class="menu-icon">
+            <i class="bi bi-map"></i>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" class="form-control" placeholder="Suche nach Stadt..." @bind="searchTerm" />
+        <button class="btn btn-search" @onclick="SearchLocations">
+            <i class="bi bi-search"></i>
+        </button>
+    </div>
+
+    <!-- Location List -->
+    <div class="location-list">
+        @foreach (var location in filteredLocations)
+        {
+            <div class="location-item" @onclick="() => NavigateToWeather(location)">
+                <span class="location-name">@location</span>
+                <span class="location-temp">25°</span>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string searchTerm = string.Empty;
+    private List<string> locations = new List<string>
+    {
+        "Steffisburg, Schwendibach",
+        "Bern, Switzerland",
+        "Zurich, Switzerland",
+        "Geneva, Switzerland",
+        "Lucerne, Switzerland"
+    };
+    private List<string> filteredLocations;
+
+    protected override void OnInitialized()
+    {
+        // Initially set filteredLocations to all available locations
+        filteredLocations = locations;
+    }
+
+    private void SearchLocations()
+    {
+        // If searchTerm is empty, reset to show all locations
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            filteredLocations = locations;
+        }
+        else
+        {
+            // Filter locations based on search term (case insensitive)
+            filteredLocations = locations
+                .Where(location => location.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }
+
+    private void NavigateToWeather(string location)
+    {
+        // Navigate to the weather page with the selected location as a query parameter
+        NavigationManager.NavigateTo($"/?location={Uri.EscapeDataString(location)}");
+    }
+}

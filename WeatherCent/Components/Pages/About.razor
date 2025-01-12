@@ -1,1 +1,59 @@
 @page "/about"
+@inject NavigationManager NavigationManager
+
+<div class="about-page">
+    <!-- Header -->
+    <div class="about-header">
+        <div class="app-title">WeatherCent</div>
+        <div class="menu-icon">
+            <i class="bi bi-info-circle"></i>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section">
+        <h2>Über WeatherCent</h2>
+        <p>
+            WeatherCent ist eine innovative Wetter-App, die es Ihnen ermöglicht, das Wetter in verschiedenen Städten weltweit zu verfolgen.
+            Unsere Anwendung bietet Ihnen präzise Wettervorhersagen, aktuelle Temperaturen und eine benutzerfreundliche Oberfläche,
+            die auf allen Geräten reibungslos funktioniert.
+        </p>
+        <p>
+            Unser Ziel ist es, Ihnen zu helfen, das beste Wettererlebnis zu haben, ob auf Reisen oder zu Hause.
+        </p>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <h2>Häufig gestellte Fragen (FAQ)</h2>
+        <div class="faq-item">
+            <h4>Wie genau sind die Wettervorhersagen?</h4>
+            <p>
+                Unsere Wettervorhersagen basieren auf zuverlässigen und aktuellen Daten von führenden Wetterdiensten. Obwohl wir stets die genauesten
+                Informationen bereitstellen, kann sich das Wetter schnell ändern. Daher empfehlen wir, regelmäßig nach Updates zu schauen.
+            </p>
+        </div>
+        <div class="faq-item">
+            <h4>Kann ich die App auch offline nutzen?</h4>
+            <p>
+                Aktuell benötigen Sie eine Internetverbindung, um die aktuellen Wetterdaten und Vorhersagen anzuzeigen. Wir arbeiten jedoch daran,
+                Offline-Funktionen in zukünftigen Versionen anzubieten.
+            </p>
+        </div>
+        <div class="faq-item">
+            <h4>Wie kann ich meine Lieblingsorte speichern?</h4>
+            <p>Derzeit unterstützen wir keine Funktion zum Speichern von Lieblingsorten. In Zukunft wird dies jedoch eine der geplanten Funktionen sein.</p>
+        </div>
+        <div class="faq-item">
+            <h4>Warum zeigt die App keine Wetterdaten für meine Stadt?</h4>
+            <p>
+                Falls keine Wetterdaten für Ihre Stadt angezeigt werden, könnte dies daran liegen, dass die Datenquelle keine Informationen für diese
+                Region bereitstellt. Wir arbeiten daran, unseren Service kontinuierlich zu erweitern.
+            </p>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Hier können bei Bedarf zusätzliche Logiken oder Variablen eingefügt werden
+}

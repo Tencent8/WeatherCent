@@ -1,0 +1,56 @@
+@page "/summary"
+@inject NavigationManager NavigationManager
+
+<div class="container-summary">
+    <h3>Summary</h3>
+
+    @if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
+    {
+        <div class="summary-section">
+            <p><strong>Username:</strong> @Username</p>
+            <p><strong>Password:</strong> @Password</p>
+            <p><strong>Date of Birth:</strong> @DateOfBirth</p>
+            <p><strong>Enable Notifications:</strong> @EnableNotifications</p>
+            <p><strong>User Type:</strong> @UserType</p>
+            <p><strong>Age:</strong> @Age</p>
+            <p><strong>Country:</strong> @Country</p>
+        </div>
+        
+        <button class="summary-button" @onclick="NavigateBack">Go Back</button>
+    }
+    else
+    {
+        <p>No data received!</p>
+    }
+</div>
+
+@code {
+    [Parameter] public string Username { get; set; }
+    [Parameter] public string Password { get; set; }
+    [Parameter] public string DateOfBirth { get; set; }
+    [Parameter] public bool EnableNotifications { get; set; }
+    [Parameter] public bool IsAdmin { get; set; }
+    [Parameter] public int Age { get; set; }
+    [Parameter] public string Country { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+
+        Username = queryParams.ContainsKey("username") ? queryParams["username"] : string.Empty;
+        Password = queryParams.ContainsKey("password") ? queryParams["password"] : string.Empty;
+        DateOfBirth = queryParams.ContainsKey("dob") ? queryParams["dob"] : string.Empty;
+        EnableNotifications = queryParams.ContainsKey("notifications") && queryParams["notifications"] == "true";
+        IsAdmin = queryParams.ContainsKey("isAdmin") && queryParams["isAdmin"] == "true";
+        Age = queryParams.ContainsKey("age") ? int.Parse(queryParams["age"]) : 0;
+        Country = queryParams.ContainsKey("country") ? queryParams["country"] : string.Empty;
+    }
+
+    private string UserType => IsAdmin ? "Admin" : "Regular User";
+
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+}

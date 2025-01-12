@@ -1,54 +1,56 @@
 ﻿@page "/hidden"
 
-<h3>Versteckte Komponente für die Bewertung</h3>
+<div class="px-4 hidden">
+    <h3>Versteckte Komponente für die Bewertung</h3>
 
-@if (games == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Country</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var game in games)
-            {
+    @if (games == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@game.Id</td>
-                    <td>@game.Name</td>
-                    <td>@game.Age</td>
-                    <td>@game.Country</td>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Country</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var game in games)
+                {
+                    <tr>
+                        <td>@game.Id</td>
+                        <td>@game.Name</td>
+                        <td>@game.Age</td>
+                        <td>@game.Country</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
-<div class="carousel">
-    <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-            @for (int i = 0; i < images.Count; i++)
-            {
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i"
-                        class="@((i == currentSlide) ? "active" : "")"
-                        aria-current="@((i == currentSlide) ? "true" : null)"
-                        aria-label="Slide @(i + 1)"></button>
-            }
-        </div>
-        <div class="carousel-inner">
-            @for (int i = 0; i < images.Count; i++)
-            {
-                <div class="carousel-item @(i == currentSlide ? "active" : "")">
-                    <img src="@images[i]" class="d-block w-100" alt="Image @(i + 1)">
-                </div>
-            }
+    <div class="carousel">
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators">
+                @for (int i = 0; i < images.Count; i++)
+                {
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i"
+                            class="@((i == currentSlide) ? "active" : "")"
+                            aria-current="@((i == currentSlide) ? "true" : null)"
+                            aria-label="Slide @(i + 1)"></button>
+                }
+            </div>
+            <div class="carousel-inner">
+                @for (int i = 0; i < images.Count; i++)
+                {
+                    <div class="carousel-item @(i == currentSlide ? "active" : "")">
+                        <img src="@images[i]" class="d-block w-100" alt="Image @(i + 1)">
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>

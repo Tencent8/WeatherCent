@@ -86,3 +86,289 @@ h1:focus {
         padding-left: env(safe-area-inset-left);
     }
 }
+
+
+.weather-page {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.weather-header {
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.weather-condition {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.weather-location {
+    font-size: 1.2rem;
+    margin-top: 5px;
+}
+
+.weather-temperature {
+    font-size: 4rem;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.weather-forecast-list {
+    background: rgba(255,255,255, 0.6);
+    padding: 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin-top: 70px;
+}
+
+.forecast-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 35px 0;
+    border-bottom: 1px solid #000000;
+}
+
+.forecast-day {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.forecast-details {
+    color: #666;
+}
+
+.top-row {
+    padding-top: 20px;
+}
+
+.locations-page {
+    background-color: #2e2f47; /* Dark background */
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.locations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.hidden {
+    background-color: white;
+}
+
+.menu-icon {
+    font-size: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+    .search-bar .form-control {
+        flex: 1;
+        background-color: #4a4b65;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        margin-right: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+        .search-bar .form-control:focus {
+            background-color: #3a3b55;
+            outline: none;
+        }
+
+    .search-bar .btn-search {
+        background-color: #4a4b65;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .search-bar .btn-search:hover {
+            background-color: #3a3b55;
+        }
+
+.location-list {
+    background-color: #4a4b65;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.location-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #7e7f91;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+    .location-item:hover {
+        background-color: #676788; /* Darker shade on hover */
+    }
+
+.location-name {
+    flex: 1;
+}
+
+.location-temp {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.about-page {
+    background-color: #2e2f47; /* Dunkler Hintergrund */
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto; /* Ermöglicht das Scrollen, falls der Inhalt größer als der Bildschirm ist */
+}
+
+.about-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 2px solid #4a4b65;
+    margin-bottom: 20px;
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.menu-icon {
+    font-size: 20px;
+}
+
+.about-section {
+    background-color: #4a4b65;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    flex: 1; /* Damit der Abschnitt flexibel wächst und den verfügbaren Platz einnimmt */
+}
+
+    .about-section h2 {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .about-section p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+.faq-section {
+    background-color: #4a4b65;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+    .faq-section h2 {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+.faq-item {
+    margin-bottom: 15px;
+}
+
+    .faq-item h4 {
+        font-size: 18px;
+        font-weight: bold;
+        color: #f0f0f0;
+    }
+
+    .faq-item p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-top: 5px;
+        color: #c0c0c0;
+    }
+
+/* Style für die Zusammenfassungsseite */
+.container-summary {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.summary-section {
+    margin-bottom: 15px;
+}
+
+    .summary-section p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .summary-section strong {
+        font-weight: bold;
+        color: #333;
+    }
+
+.summary-button {
+    display: block;
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+    .summary-button:hover {
+        background-color: #0056b3;
+    }

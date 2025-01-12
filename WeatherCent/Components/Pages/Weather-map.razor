@@ -1,0 +1,98 @@
+@page "/weather-map"
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+@using System.Text.Json
+
+@* Füge das Leaflet-Stylesheet und -Script ein *@
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<div class="weather-map-container" style="height: 100vh; width: 100%;">
+    <div id="weatherMap" style="height: 100%;"></div>
+</div>
+
+@code {
+    private string apiKey = "f5e0a773c430fe99c73aae2d37a82518f5e0a773c430fe99c73aae2d37a82518";  // Dein OpenWeatherMap API-Schlüssel
+    private double latitude = 47.3769;  // Beispiel: Zürich
+    private double longitude = 8.5417;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                await InitializeMap();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error initializing the map: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task InitializeMap()
+    {
+        // Initialisierung der Karte
+        var map = await JS.InvokeAsync<IJSObjectReference>("eval", "L.map('weatherMap')");
+
+        if (map == null)
+        {
+            Console.WriteLine("Error: Leaflet map object could not be initialized.");
+            return;
+        }
+
+        // Setzen der View für die Karte
+        await map.InvokeAsync<object>("setView", new[] { latitude, longitude }, 12);
+
+        // Füge OpenStreetMap Tile Layer hinzu
+        await JS.InvokeAsync<IJSObjectReference>("eval", "L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map)");
+
+        // Hole Wetterdaten von OpenWeatherMap
+        var weatherData = await GetWeatherData();
+
+        // Füge Marker hinzu, um das Wetter darzustellen
+        var marker = await JS.InvokeAsync<IJSObjectReference>("eval", $"L.marker([{latitude}, {longitude}]).addTo(map)");
+
+        await marker.InvokeAsync<object>("bindPopup", $"<b>{weatherData.Name}</b><br>{weatherData.Main.Temp}°C<br>{weatherData.Weather[0].Description}");
+        await marker.InvokeAsync<object>("openPopup");
+    }
+
+    private async Task<WeatherResponse> GetWeatherData()
+    {
+        try
+        {
+            // Hole die Wetterdaten über die OpenWeatherMap API
+            var url = $"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&units=metric&appid={apiKey}";
+            using var client = new HttpClient();
+            var response = await client.GetStringAsync(url);
+
+            // Deserialize the JSON response into the WeatherResponse model
+            var weatherData = JsonSerializer.Deserialize<WeatherResponse>(response);
+            return weatherData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching weather data: {ex.Message}");
+            return null;
+        }
+    }
+
+    // Modell für die OpenWeatherMap Antwort
+    public class WeatherResponse
+    {
+        public string Name { get; set; }
+        public MainWeatherData Main { get; set; }
+        public List<WeatherDescription> Weather { get; set; }
+    }
+
+    public class MainWeatherData
+    {
+        public double Temp { get; set; }
+    }
+
+    public class WeatherDescription
+    {
+        public string Description { get; set; }
+    }
+}
